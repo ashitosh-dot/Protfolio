@@ -534,23 +534,9 @@ footer p { font-size:.85rem; }
   .stats-grid { grid-template-columns:1fr 1fr; }
 }
 </style>
-<!-- EmailJS SDK - sends form data directly to ashitosh2728@gmail.com -->
+<!-- EmailJS -->
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script>
-  // ─── HOW TO ACTIVATE (one-time, free, 2 minutes) ───────────────────────
-  // 1. Go to https://emailjs.com → Sign up FREE with ashitosh2728@gmail.com
-  // 2. Add Service: Gmail → name it "service_portfolio" → Connect Gmail
-  // 3. Create Template → name it "template_portfolio"
-  //    Template body:
-  //      From: {{from_name}} ({{from_email}})
-  //      Phone: {{phone}}
-  //      Subject: {{subject}}
-  //      Message: {{message}}
-  //    Set "To Email" = ashitosh2728@gmail.com
-  // 4. Account → API Keys → copy Public Key → paste below replacing YOUR_PUBLIC_KEY
-  // ───────────────────────────────────────────────────────────────────────
-  emailjs.init('YOUR_PUBLIC_KEY');
-</script>
+<script>emailjs.init('MsK78MdcKjTZ6U-nL');</script>
 </head>
 <body>
 
@@ -631,7 +617,7 @@ footer p { font-size:.85rem; }
           <div class="about-chip"><i class="fas fa-briefcase"></i><span>Open to Work ✅</span></div>
           <div class="about-chip"><i class="fab fa-github"></i><span>github.com/ashitosh-dot</span></div>
           <div class="about-chip"><i class="fas fa-medal"></i><span>NCC Cadet</span></div>
-          <div class="about-chip"><i class="fas fa-envelope"></i><span>ashitosh2728@gmail.com</span></div>
+          <div class="about-chip"><i class="fas fa-envelope"></i><span><a href="mailto:ashitosh2728@gmail.com" class="__cf_email__" data-cfemail="4e2f3d26273a213d267c797c760e29232f2722602d2123">[email&#160;protected]</a></span></div>
         </div>
       </div>
       <div class="about-right">
@@ -1354,7 +1340,8 @@ footer p { font-size:.85rem; }
           <input type="hidden" name="_replyto" value="ashitosh2728@gmail.com">
           <input type="hidden" name="_subject" value="New Portfolio Contact Message">
           <div class="success-msg" id="successMsg" style="display:none;"><i class="fas fa-check-circle"></i> ✅ Message sent! I will reply within 24 hours.</div>
-          <div class="success-msg" id="errorMsg" style="display:none;background:rgba(255,80,80,.1);border-color:rgba(255,80,80,.3);color:#c0392b;"><i class="fas fa-exclamation-circle"></i> Failed to send. Please email: <a href="mailto:ashitosh2728@gmail.com" class="__cf_email__" data-cfemail="08697b60617c677b603a3f3a30486f65696164266b6765">[email&#160;protected]</a></div>
+          <div id="errorMsg" style="display:none;margin-top:.8rem;padding:.9rem 1.3rem;background:rgba(255,80,80,.1);border:1px solid rgba(255,80,80,.3);border-radius:8px;color:#c0392b;font-weight:600;text-align:center;"></div>
+          <div class="success-msg" id="errorMsg" style="display:none;background:rgba(255,80,80,.1);border-color:rgba(255,80,80,.3);color:#c0392b;"><i class="fas fa-exclamation-circle"></i> Failed to send. Please email: <a href="mailto:ashitosh2728@gmail.com" class="__cf_email__" data-cfemail="39584a51504d564a510b0e0b01795e54585055175a5654">[email&#160;protected]</a></div>
         </form>
       </div>
     </div>
@@ -1461,43 +1448,38 @@ async function sendMsg(e) {
   successMsg.style.display = 'none';
   errorMsg.style.display   = 'none';
 
-  try {
-    await emailjs.send('service_portfolio', 'template_portfolio', {
-      from_name : name,
-      from_email: email,
-      phone     : phone,
-      subject   : subject,
-      message   : message
-    });
+  emailjs.send('service_portfolio', 'template_portfolio', {
+    from_name  : name,
+    from_email : email,
+    phone      : phone,
+    subject    : subject,
+    message    : message
+  })
+  .then(function() {
     btn.innerHTML = '<i class="fas fa-check"></i> Sent!';
     btn.style.background = '#28c840';
     successMsg.style.display = 'block';
     document.getElementById('contactForm').reset();
-    setTimeout(() => {
+    setTimeout(function() {
       btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
       btn.style.background = '';
       btn.disabled = false;
       successMsg.style.display = 'none';
     }, 5000);
-  } catch(err) {
+  })
+  .catch(function(err) {
     console.error('EmailJS error:', err);
-    const body = encodeURIComponent(
-      'Name: ' + name + '\nEmail: ' + email + '\nPhone: ' + phone +
-      '\nSubject: ' + subject + '\n\nMessage:\n' + message
-    );
-    const gmailLink = 'https://mail.google.com/mail/?view=cm&to=ashitosh2728%40gmail.com&su=' +
-      encodeURIComponent('Portfolio Message from ' + name) + '&body=' + body;
-    errorMsg.innerHTML = '<i class="fas fa-exclamation-circle"></i> Could not auto-send. ' +
-      '<a href="' + gmailLink + '" target="_blank" style="color:#c0392b;font-weight:900;text-decoration:underline;">' +
-      'Click here to open Gmail</a> or email <strong>ashitosh2728@gmail.com</strong> directly.';
+    const body = encodeURIComponent('Name: '+name+'\nEmail: '+email+'\nPhone: '+phone+'\nSubject: '+subject+'\n\nMessage:\n'+message);
+    const glink = 'https://mail.google.com/mail/?view=cm&to=ashitosh2728%40gmail.com&su='+encodeURIComponent('Portfolio Message from '+name)+'&body='+body;
+    errorMsg.innerHTML = '<i class="fas fa-exclamation-circle"></i> Could not send automatically. <a href="'+glink+'" target="_blank" style="color:#c0392b;font-weight:900;text-decoration:underline;">Click here to send via Gmail</a> instead.';
     errorMsg.style.display = 'block';
     btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
     btn.style.background = '';
     btn.disabled = false;
-  }
+  });
 }
 
-// ── Fade in on scroll ─────────────────────────────────────────────
+// Fade in on scroll
 const fadeIO = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) {
@@ -1506,7 +1488,6 @@ const fadeIO = new IntersectionObserver(entries => {
     }
   });
 }, { threshold: 0.1 });
-
 document.querySelectorAll('.proj-card, .soft-card, .ach-card, .edu-card, .tl-card').forEach(el => {
   el.style.opacity = '0';
   el.style.transform = 'translateY(24px)';
