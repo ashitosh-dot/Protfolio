@@ -1325,18 +1325,19 @@ footer p { font-size:.85rem; }
           </div>
           <div class="fg"><label>Phone Number</label><input type="tel" id="from_phone" name="phone" placeholder="+91 00000 00000"></div>
           <div class="fg">
-            <option value="">What do you need? Select…</option>
-            <option>🌐 Build a Website</option>
-            <option>⚙️ Build a Web Application</option>
-            <option>🛒 E-Commerce Website</option>
-            <option>🎨 UI/UX Design & Development</option>
-            <option>🗄️ Backend / API Development</option>
-            <option>🐍 Django / Flask Project</option>
-            <option>⚛️ React Frontend Development</option>
-            <option>🗃️ Database Design & MySQL</option>
-            <option>🔧 Fix / Improve Existing Website</option>
-            <option>💬 General Inquiry</option>
-            <option>❓ Other Text in the message what you want..? </option>
+            <select name="project_type" id="project_type">
+              <option value="">What do you need? Select…</option>
+              <option>🌐 Build a Website</option>
+              <option>⚙️ Build a Web Application</option>
+              <option>🛒 E-Commerce Website</option>
+              <option>🎨 UI/UX Design & Development</option>
+              <option>🗄️ Backend / API Development</option>
+              <option>🐍 Django / Flask Project</option>
+              <option>⚛️ React Frontend Development</option>
+              <option>🗃️ Database Design & MySQL</option>
+              <option>🔧 Fix / Improve Existing Website</option>
+              <option>💬 General Inquiry</option>
+              <option>❓ Other Text in the message what you want..? </option>
             </select>
           </div>
           <div class="fg"><label>Message *</label><textarea id="from_message" name="message" placeholder="Tell me about your project — what do you need built? Budget, timeline, features…" required></textarea></div>
@@ -1485,6 +1486,7 @@ async function sendMsg(e) {
     btn.style.background = '';
     btn.disabled = false;
   });
+}
 </script>
 </body>
 </html>
