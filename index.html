@@ -1325,19 +1325,20 @@ footer p { font-size:.85rem; }
           </div>
           <div class="fg"><label>Phone Number</label><input type="tel" id="from_phone" name="phone" placeholder="+91 00000 00000"></div>
           <div class="fg">
-            <select name="project_type" id="project_type">
-              <option value="">What do you need? Select…</option>
+            <label>What do you need? *</label>
+            <select id="from_subject" name="subject" required>
+              <option value="">Select a service…</option>
               <option>🌐 Build a Website</option>
               <option>⚙️ Build a Web Application</option>
               <option>🛒 E-Commerce Website</option>
-              <option>🎨 UI/UX Design & Development</option>
+              <option>🎨 UI/UX Design &amp; Development</option>
               <option>🗄️ Backend / API Development</option>
               <option>🐍 Django / Flask Project</option>
               <option>⚛️ React Frontend Development</option>
-              <option>🗃️ Database Design & MySQL</option>
+              <option>🗃️ Database Design &amp; MySQL</option>
               <option>🔧 Fix / Improve Existing Website</option>
               <option>💬 General Inquiry</option>
-              <option>❓ Other Text in the message what you want..? </option>
+              <option>❓ Other (describe in message)</option>
             </select>
           </div>
           <div class="fg"><label>Message *</label><textarea id="from_message" name="message" placeholder="Tell me about your project — what do you need built? Budget, timeline, features…" required></textarea></div>
@@ -1378,7 +1379,7 @@ footer p { font-size:.85rem; }
 
 <button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top"><i class="fas fa-arrow-up"></i></button>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── Hamburger ─────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', function() {
   const ham = document.getElementById('hamburger');
@@ -1393,20 +1394,17 @@ document.addEventListener('DOMContentLoaded', function() {
       ham.querySelector('i').className = 'fas fa-bars';
     }));
   }
-});
 
-// ── Active nav on scroll ──────────────────────────────
-const sections = document.querySelectorAll('section[id], div[id="stats"]');
-const navAs = document.querySelectorAll('.nav-links a');
+// ── Active nav highlight on scroll ───────────────────
 const io = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) {
-      navAs.forEach(a => {
-        a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id);
-      });
+      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+      const link = document.querySelector('.nav-links a[href="#'+e.target.id+'"]');
+      if (link) link.classList.add('active');
     }
   });
-}, { rootMargin:'-40% 0px -55% 0px' });
+}, { rootMargin: '-40% 0px -55% 0px' });
 document.querySelectorAll('section[id]').forEach(s => io.observe(s));
 
 // ── Skill bars on scroll ──────────────────────────────
@@ -1480,13 +1478,14 @@ async function sendMsg(e) {
     console.error('EmailJS error:', err);
     const body = encodeURIComponent('Name: '+name+'\nEmail: '+email+'\nPhone: '+phone+'\nSubject: '+subject+'\n\nMessage:\n'+message);
     const glink = 'https://mail.google.com/mail/?view=cm&to=ashitosh2728%40gmail.com&su='+encodeURIComponent('Portfolio Message from '+name)+'&body='+body;
-    errorMsg.innerHTML = '<i class="fas fa-exclamation-circle"></i> Could not send automatically. <a href="'+glink+'" target="_blank" style="color:#c0392b;font-weight:900;text-decoration:underline;">Click here to send via Gmail</a> instead.';
+    errorMsg.innerHTML = '<i class="fas fa-exclamation-circle"></i> Could not send automatically. <a href="'+glink+'" target="_blank" style="color:#c0392b;font-weight:900;text-decoration:underline;">Click here to send via Gmail</a>';
     errorMsg.style.display = 'block';
     btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
     btn.style.background = '';
     btn.disabled = false;
   });
 }
+}); // end DOMContentLoaded
 </script>
 </body>
 </html>
