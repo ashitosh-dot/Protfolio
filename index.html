@@ -617,7 +617,7 @@ footer p { font-size:.85rem; }
           <div class="about-chip"><i class="fas fa-briefcase"></i><span>Open to Work ✅</span></div>
           <div class="about-chip"><i class="fab fa-github"></i><span>github.com/ashitosh-dot</span></div>
           <div class="about-chip"><i class="fas fa-medal"></i><span>NCC Cadet</span></div>
-          <div class="about-chip"><i class="fas fa-envelope"></i><span>ashitosh2728@gmail.com</span></div>
+          <div class="about-chip"><i class="fas fa-envelope"></i><span><a href="mailto:ashitosh2728@gmail.com">ashitosh2728@gmail.com</a></span></div>
         </div>
       </div>
       <div class="about-right">
@@ -1346,8 +1346,7 @@ footer p { font-size:.85rem; }
           <input type="hidden" name="_replyto" value="ashitosh2728@gmail.com">
           <input type="hidden" name="_subject" value="New Portfolio Contact Message">
           <div class="success-msg" id="successMsg" style="display:none;"><i class="fas fa-check-circle"></i> ✅ Message sent! I will reply within 24 hours.</div>
-          <div id="errorMsg" style="display:none;margin-top:.8rem;padding:.9rem 1.3rem;background:rgba(255,80,80,.1);border:1px solid rgba(255,80,80,.3);border-radius:8px;color:#c0392b;font-weight:600;text-align:center;"></div>
-          <div class="success-msg" id="errorMsg" style="display:none;background:rgba(255,80,80,.1);border-color:rgba(255,80,80,.3);color:#c0392b;"><i class="fas fa-exclamation-circle"></i> Failed to send. Please email: ashitosh2728@gmail.com</div>
+          <div id="errorMsg" style="display:none;margin-top:.8rem;padding:.9rem 1.3rem;background:rgba(255,80,80,.1);border:1px solid rgba(255,80,80,.3);border-radius:8px;color:#c0392b;font-weight:600;text-align:center;"><i class="fas fa-exclamation-circle"></i> Failed to send. Please email: <a href="mailto:ashitosh2728@gmail.com">ashitosh2728@gmail.com</a></div>
         </form>
       </div>
     </div>
@@ -1379,7 +1378,7 @@ footer p { font-size:.85rem; }
 
 <button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top"><i class="fas fa-arrow-up"></i></button>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // ── Hamburger ─────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', function() {
   const ham = document.getElementById('hamburger');
@@ -1437,8 +1436,10 @@ document.querySelectorAll('.f-btn').forEach(btn => {
 const btt = document.getElementById('btt');
 window.addEventListener('scroll', () => btt.classList.toggle('show', window.scrollY > 400));
 
-// ── Contact form ──────────────────────────────────────
-async function sendMsg(e) {
+}); // end DOMContentLoaded
+
+// ── Contact form (global scope so onsubmit can reach it) ──
+function sendMsg(e) {
   e.preventDefault();
   const btn        = document.getElementById('submitBtn');
   const successMsg = document.getElementById('successMsg');
@@ -1476,16 +1477,12 @@ async function sendMsg(e) {
   })
   .catch(function(err) {
     console.error('EmailJS error:', err);
-    const body = encodeURIComponent('Name: '+name+'\nEmail: '+email+'\nPhone: '+phone+'\nSubject: '+subject+'\n\nMessage:\n'+message);
-    const glink = 'https://mail.google.com/mail/?view=cm&to=ashitosh2728%40gmail.com&su='+encodeURIComponent('Portfolio Message from '+name)+'&body='+body;
-    errorMsg.innerHTML = '<i class="fas fa-exclamation-circle"></i> Could not send automatically. <a href="'+glink+'" target="_blank" style="color:#c0392b;font-weight:900;text-decoration:underline;">Click here to send via Gmail</a>';
-    errorMsg.style.display = 'block';
     btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
     btn.style.background = '';
     btn.disabled = false;
+    errorMsg.style.display = 'block';
   });
 }
-}); // end DOMContentLoaded
 </script>
 </body>
 </html>
